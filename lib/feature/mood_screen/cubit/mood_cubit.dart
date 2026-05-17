@@ -21,9 +21,8 @@ class MoodCubit extends Cubit<MoodState> {
 
   Future<void> selectMood(MoodType type) async {
     try {
-      // await _storage.updateMoodByDate(type ,   DateTime(2026, 5, 18),);
-
       await _storage.updateTodayMood(type);
+      // await _storage.updateMoodByDate(type ,   DateTime(2026, 5, 18),);
       await loadMoods();
     } catch (e) {
       emit(MoodError(e.toString()));
