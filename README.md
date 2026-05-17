@@ -2,6 +2,10 @@
 
 A Flutter app to track your daily mood with a game-style UI.
 
+## Live Demo
+
+[https://nadaezzatdev.github.io/mood_tracker/](https://nadaezzatdev.github.io/mood_tracker/)
+
 ## Features
 
 - **Track Daily Mood**: Select your mood for today (Happy, Neutral, Sad)
