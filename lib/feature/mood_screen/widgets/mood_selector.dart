@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../models/mood.dart';
+import 'mood_face.dart';
 
 class MoodSelector extends StatelessWidget {
   final MoodType? selectedMood;
@@ -26,25 +27,25 @@ class MoodSelector extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _MoodButton(
-              emoji: '😊',
+              moodType: MoodType.happy,
               label: 'Happy',
               gradientColors: AppColors.happyGradient,
               isSelected: selectedMood == MoodType.happy,
               onTap: () => onMoodSelected(MoodType.happy),
             ),
             _MoodButton(
-              emoji: '😢',
+              moodType: MoodType.neutral,
+              label: 'Neutral',
+              gradientColors: AppColors.neutralGradient,
+              isSelected: selectedMood == MoodType.neutral,
+              onTap: () => onMoodSelected(MoodType.neutral),
+            ),
+            _MoodButton(
+              moodType: MoodType.sad,
               label: 'Sad',
               gradientColors: AppColors.sadGradient,
               isSelected: selectedMood == MoodType.sad,
               onTap: () => onMoodSelected(MoodType.sad),
-            ),
-            _MoodButton(
-              emoji: '😠',
-              label: 'Angry',
-              gradientColors: AppColors.angryGradient,
-              isSelected: selectedMood == MoodType.angry,
-              onTap: () => onMoodSelected(MoodType.angry),
             ),
           ],
         ),
@@ -54,14 +55,14 @@ class MoodSelector extends StatelessWidget {
 }
 
 class _MoodButton extends StatefulWidget {
-  final String emoji;
+  final MoodType moodType;
   final String label;
   final List<Color> gradientColors;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _MoodButton({
-    required this.emoji,
+    required this.moodType,
     required this.label,
     required this.gradientColors,
     required this.isSelected,
@@ -149,11 +150,9 @@ class _MoodButtonState extends State<_MoodButton>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                widget.emoji,
-                style: TextStyle(
-                  fontSize: widget.isSelected ? 48 : 40,
-                ),
+              MoodFace(
+                moodType: widget.moodType,
+                size: widget.isSelected ? 56 : 48,
               ),
               const SizedBox(height: 8),
               Text(

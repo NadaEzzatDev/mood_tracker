@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/theme/app_theme.dart';
 import 'feature/models/mood.dart';
+import 'feature/mood_screen/cubit/mood_cubit.dart';
 import 'feature/mood_screen/mood_screen.dart';
 import 'feature/services/mood_storage.dart';
 
@@ -29,11 +30,14 @@ class MoodTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Mood Tracker',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
-      home: const MoodScreen(),
+    return BlocProvider(
+      create: (context) => MoodCubit(storage),
+      child: MaterialApp(
+        title: 'Mood Tracker',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.darkTheme,
+        home: const MoodScreen(),
+      ),
     );
   }
 }

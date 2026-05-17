@@ -53,9 +53,9 @@ class MoodTypeAdapter extends TypeAdapter<MoodType> {
       case 0:
         return MoodType.happy;
       case 1:
-        return MoodType.sad;
+        return MoodType.neutral;
       case 2:
-        return MoodType.angry;
+        return MoodType.sad;
       default:
         return MoodType.happy;
     }
@@ -67,10 +67,10 @@ class MoodTypeAdapter extends TypeAdapter<MoodType> {
       case MoodType.happy:
         writer.writeByte(0);
         break;
-      case MoodType.sad:
+      case MoodType.neutral:
         writer.writeByte(1);
         break;
-      case MoodType.angry:
+      case MoodType.sad:
         writer.writeByte(2);
         break;
     }

@@ -8,10 +8,10 @@ enum MoodType {
   happy,
 
   @HiveField(1)
-  sad,
+  neutral,
 
   @HiveField(2)
-  angry,
+  sad,
 }
 
 @HiveType(typeId: 1)
@@ -27,25 +27,14 @@ class Mood extends HiveObject {
     required this.date,
   });
 
-  String get emoji {
-    switch (type) {
-      case MoodType.happy:
-        return '😊';
-      case MoodType.sad:
-        return '😢';
-      case MoodType.angry:
-        return '😠';
-    }
-  }
-
   String get label {
     switch (type) {
       case MoodType.happy:
         return 'Happy';
+      case MoodType.neutral:
+        return 'Neutral';
       case MoodType.sad:
         return 'Sad';
-      case MoodType.angry:
-        return 'Angry';
     }
   }
 }

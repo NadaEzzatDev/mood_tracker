@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:mode_tracker/feature/mood_screen/widgets/mood_history_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mode_tracker/feature/mood_screen/widgets/history/history_section.dart';
 import 'package:mode_tracker/feature/mood_screen/widgets/mood_selector.dart';
 
 import '../../core/theme/app_theme.dart';
-import '../models/mood.dart';
+import 'cubit/mood_cubit.dart';
+import 'cubit/mood_state.dart';
 
-class MoodScreen extends StatelessWidget {
+class MoodScreen extends StatefulWidget {
   const MoodScreen({super.key});
+
+  @override
+  State<MoodScreen> createState() => _MoodScreenState();
+}
+
+class _MoodScreenState extends State<MoodScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MoodCubit>().loadMoods();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,54 +55,23 @@ class MoodScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 30),
-              // History section
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.card,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppColors.primary.withValues(alpha: 0.5),
-                        ),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.history,
-                            color: AppColors.primary,
-                            size: 18,
-                          ),
-                          SizedBox(width: 6),
-                          Text(
-                            'History',
-                            style: TextStyle(
-                              color: AppColors.textPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              // History list
-              MoodHistoryList(
-                moods: [
-                  Mood(type: MoodType.happy, date: DateTime.now()),
-                  Mood(type: MoodType.sad, date: DateTime.now()),
-                ],
-              ),
+
               // Mood selector
-              MoodSelector(selectedMood: null, onMoodSelected: (type) {}),
+              BlocBuilder<MoodCubit, MoodState>(
+                builder: (context, state) {
+                  final todayMood = state is MoodLoaded
+                      ? state.todayMood?.type
+                      : null;
+                  return MoodSelector(
+                    selectedMood: todayMood,
+                    onMoodSelected: (type) {
+                      context.read<MoodCubit>().selectMood(type);
+                    },
+                  );
+                },
+              ),
+              // History section
+              HistorySection(),
             ],
           ),
         ),
